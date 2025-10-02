@@ -1,74 +1,141 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <title>Login Guru</title>
-  <style>
-    body {
-      background: #f0f4f8;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-
-    .login-container {
-      background: white;
-      padding: 40px;
-      border-radius: 10px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-      width: 320px;
-      text-align: center;
-    }
-
-    .login-container h2 {
-      margin-bottom: 20px;
-      color: #333;
-    }
-
-    input[type="text"],
-    input[type="password"] {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      box-sizing: border-box;
-    }
-
-    button {
-      width: 100%;
-      padding: 12px;
-      background-color: #0066cc;
-      border: none;
-      color: white;
-      font-weight: bold;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    button:hover {
-      background-color: #0052a3;
-    }
-
-    .footer-text {
-      margin-top: 15px;
-      font-size: 0.9em;
-      color: #888;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Absen Siswa SD (Sederhana)</title>
+    <style>
+        /* CSS untuk Tampilan */
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif; /* Font yang lebih ceria */
+            margin: 20px;
+            background-color: #e6f7ff; /* Biru muda cerah */
+            color: #333;
+        }
+        .container {
+            max-width: 450px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            border: 3px solid #ff9900; /* Garis tepi oranye */
+        }
+        h2 {
+            text-align: center;
+            color: #007bff; /* Biru */
+            margin-bottom: 20px;
+        }
+        label, input, select, button {
+            display: block;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        input[type="text"], select {
+            padding: 12px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        button {
+            background-color: #4CAF50; /* Hijau */
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #d4edda; /* Hijau muda */
+            color: #155724; /* Hijau tua */
+            border: 1px solid #c3e6cb;
+            display: none;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-  <div class="login-container">
-    <h2>Login Guru</h2>
-    <form action="/login" method="post">
-      <input type="text" name="username" placeholder="Username" required />
-      <input type="password" name="password" placeholder="Password" required />
-      <button type="submit">Login</button>
+
+<div class="container">
+    <h2>🚪 Absen Kehadiran Siswa SD 📚</h2>
+    
+    <form id="absenForm">
+        
+        <label for="nama">Nama Lengkap Siswa:</label>
+        <input type="text" id="nama" name="nama" required placeholder="Contoh: Budi Santoso">
+        
+        <label for="kelas">Kelas:</label>
+        <select id="kelas" name="kelas" required>
+            <option value="">-- Pilih Kelas --</option>
+            <option value="Kelas 1">Kelas 1</option>
+            <option value="Kelas 2">Kelas 2</option>
+            <option value="Kelas 3">Kelas 3</option>
+            <option value="Kelas 4">Kelas 4</option>
+            <option value="Kelas 5">Kelas 5</option>
+            <option value="Kelas 6">Kelas 6</option>
+        </select>
+        
+        <label for="status">Status Kehadiran:</label>
+        <select id="status" name="status" required>
+            <option value="Hadir">Hadir</option>
+            <option value="Izin">Izin (Dengan Surat)</option>
+            <option value="Sakit">Sakit (Dengan Surat)</option>
+            <option value="Alfa">Tanpa Keterangan (Alfa)</option>
+        </select>
+        
+        <button type="submit">✅ Kirim Absen Sekarang</button>
+        
+        <div id="message"></div>
     </form>
-    <div class="footer-text">Forgot password? Contact admin.</div>
-  </div>
+</div>
+
+<script>
+    document.getElementById('absenForm').addEventListener('submit', function(event) {
+        // Mencegah form terkirim dan reload halaman
+        event.preventDefault(); 
+        
+        // Ambil nilai dari input
+        const nama = document.getElementById('nama').value;
+        const kelas = document.getElementById('kelas').value;
+        const status = document.getElementById('status').value;
+        
+        // Dapatkan tanggal dan waktu saat ini
+        const tanggal = new Date().toLocaleDateString('id-ID', {
+            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+        });
+        const waktu = new Date().toLocaleTimeString('id-ID');
+        
+        // Tampilkan pesan sukses (simulasi berhasil)
+        const messageDiv = document.getElementById('message');
+        messageDiv.style.display = 'block';
+        
+        messageDiv.innerHTML = `
+            👋 **Terima kasih, ${nama}!**<br>
+            Absen berhasil dicatat. <br><br>
+            **Detail:**<br>
+            Kelas: ${kelas}<br>
+            Status: ${status}<br>
+            Tanggal & Waktu: ${tanggal} Pukul ${waktu}
+        `;
+        
+        // Di sini seharusnya Anda mengirim data ke server/database
+        // **PERHATIAN: Tanpa kode server (seperti PHP/Google Apps Script), data ini tidak tersimpan.**
+        
+        // Kosongkan formulir setelah berhasil
+        document.getElementById('absenForm').reset();
+    });
+</script>
+
 </body>
 </html>
